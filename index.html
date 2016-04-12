@@ -1,10 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<body>
+  <head>
+    <title>Parking Lot Status</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
 
-<div style="background-color:green; color:white; padding:20px; width:30%; height:150px; float: left"> Available </div>
-<div style="background-color:red; color:white; padding:20px; width:30%; height:150px; float: left"> Taken</div>
-<div style="background-color:yellow; color:white; padding:20px; width:30%; height:150px; float: left"> Changing</div>
+    <div id="spot_1" style="background-color:green; vertical-align: middle; color:white; width:33.3%; height:250px; float: left"> 
 
-</body>
+    <h1 id="spot_1_text" style="text-align: center;"><br>1 <br><br> Available </h1>
+
+    </div>
+
+
+    <div id="spot_2" style="background-color:green; vertical-align: middle; color:white; width:33.3%; height:250px; float: left"> 
+
+    <h1 id="spot_2_text" style="text-align: center;"><br>2 <br><br> Available </h1>
+
+    </div>
+
+    <div id="spot_3" style="background-color:green; vertical-align: middle; color:white; width:33.3%; height:250px; float: left"> 
+
+    <h1 id="spot_3_text" style="text-align: center;"><br>3 <br><br> Available </h1>
+
+    </div>
+
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var colors = ["green", "yellow", "red"];
+      var spot_status = ["Available", "Changing", "Taken"];
+      var socket = io();
+      socket.on('chat message', function(msg){
+        var msgStr = msg.toString();
+
+        $('#messages').append($('<li>').text(msg));
+        $('#spot_1').css("background-color",colors[msgStr.charAt(0)])
+        $('#spot_1_text').html("<br>1 <br><br> " + spot_status[msgStr.charAt(0)]);
+        $('#spot_2').css("background-color",colors[msgStr.charAt(1)])
+        $('#spot_2_text').html("<br>2 <br><br> " + spot_status[msgStr.charAt(1)]);
+        $('#spot_3').css("background-color",colors[msgStr.charAt(2)])
+        $('#spot_3_text').html("<br>3 <br><br> " + spot_status[msgStr.charAt(2)]);
+      });
+    </script>
+  </body>
 </html>
